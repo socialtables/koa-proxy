@@ -64,7 +64,12 @@ module.exports = function(options) {
       if (name === 'transfer-encoding') {
         continue;
       }
-      this.set(name, res.headers[name]);
+      if (options.headerOptions) {
+        this.set(name, options.headerOptions(name, res.headers[name]));
+      }
+      else {
+        this.set(name, res.headers[name]);
+      }
     }
 
     if (options.encoding === 'gbk') {
